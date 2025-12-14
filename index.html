@@ -4,84 +4,276 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لینک‌های مرتبط ایذه</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Tahoma, sans-serif;
+        }
+        body {
+            background: #f0f2f5;
+            padding: 15px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3);
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            opacity: 0.9;
+        }
+        .highlight {
+            color: #ffd700;
+        }
+        .current-post {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-right: 5px solid #4CAF50;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .related-posts {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .related-posts h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .post-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .post-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .post-card h3 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .post-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .keyword {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin: 3px;
+            display: inline-block;
+        }
+        .categories {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .categories h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 25px;
+        }
+        @media (max-width: 768px) {
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            .tags-container {
+                gap: 10px;
+            }
+            .tag {
+                padding: 10px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- هدر -->
         <header class="header">
-            <div class="logo">
-                <i class="fas fa-link"></i>
-                <h1>مطالب مرتبط در <span class="highlight">ایذه</span></h1>
-            </div>
-            <p class="subtitle">پست‌های مرتبط با این مطلب را مشاهده کنید</p>
+            <h1>مطالب مرتبط در <span class="highlight">ایذه</span></h1>
+            <p>پست‌های مرتبط با این مطلب را مشاهده کنید</p>
         </header>
-
-        <!-- بخش پست فعلی -->
+        
         <div class="current-post" id="currentPost">
-            <div class="loading">
-                <div class="spinner"></div>
+            <div style="text-align:center; padding:20px;">
+                <div style="width:50px; height:50px; border:5px solid #f3f3f3; border-top:5px solid #4CAF50; border-radius:50%; margin:0 auto 15px; animation:spin 1s linear infinite;"></div>
                 <p>در حال یافتن پست‌های مرتبط...</p>
             </div>
         </div>
-
-        <!-- پست‌های مرتبط -->
-        <div class="related-posts" id="relatedPosts">
-            <h2><i class="fas fa-star"></i> پیشنهاد ویژه برای شما</h2>
+        
+        <div class="related-posts">
+            <h2>پیشنهاد ویژه برای شما</h2>
             <div class="posts-grid" id="postsGrid">
-                <!-- اینجا به صورت خودکار پر می‌شود -->
+                <!-- پست‌ها اینجا لود می‌شوند -->
             </div>
         </div>
-
-        <!-- دسته‌بندی‌ها -->
+        
         <div class="categories">
-            <h2><i class="fas fa-tags"></i> دسته‌بندی خدمات ایذه</h2>
+            <h2>دسته‌بندی خدمات ایذه</h2>
             <div class="tags-container">
-                <a href="https://izhaagahi.blogix.ir/post/20" class="tag" data-id="20">
-                    <i class="fas fa-cut"></i> آرایشگاه
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/17" class="tag" data-id="17">
-                    <i class="fas fa-graduation-cap"></i> آموزشگاه زبان
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/16" class="tag" data-id="16">
-                    <i class="fas fa-tools"></i> تعمیرکار خودرو
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/15" class="tag" data-id="15">
-                    <i class="fas fa-car"></i> خرید خودرو
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/14" class="tag" data-id="14">
-                    <i class="fas fa-user-md"></i> پزشک زنان
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/13" class="tag" data-id="13">
-                    <i class="fas fa-mobile-alt"></i> فروشگاه موبایل
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/12" class="tag" data-id="12">
-                    <i class="fas fa-utensils"></i> رستوران
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/18" class="tag" data-id="18">
-                    <i class="fas fa-heartbeat"></i> سلامت دیابت
-                </a>
-                <a href="https://izhaagahi.blogix.ir/post/10" class="tag" data-id="10">
-                    <i class="fas fa-map-marker-alt"></i> خدمات ایذه
-                </a>
+                <a href="https://izhaagahi.blogix.ir/post/20" class="tag">آرایشگاه</a>
+                <a href="https://izhaagahi.blogix.ir/post/17" class="tag">آموزشگاه زبان</a>
+                <a href="https://izhaagahi.blogix.ir/post/16" class="tag">تعمیرکار خودرو</a>
+                <a href="https://izhaagahi.blogix.ir/post/15" class="tag">خرید خودرو</a>
+                <a href="https://izhaagahi.blogix.ir/post/14" class="tag">پزشک زنان</a>
+                <a href="https://izhaagahi.blogix.ir/post/13" class="tag">فروشگاه موبایل</a>
+                <a href="https://izhaagahi.blogix.ir/post/12" class="tag">رستوران</a>
+                <a href="https://izhaagahi.blogix.ir/post/18" class="tag">سلامت دیابت</a>
+                <a href="https://izhaagahi.blogix.ir/post/10" class="tag">خدمات ایذه</a>
             </div>
         </div>
-
-        <!-- فوتر -->
+        
         <footer class="footer">
-            <p>
-                <i class="fas fa-blog"></i> 
-                این ابزار به صورت خودکار پست‌های مرتبط وبلاگ 
-                <a href="https://izhaagahi.blogix.ir" target="_blank">ایذه آگهی</a> 
-                را پیدا می‌کند
-            </p>
-            <p class="copyright">
-                © ۲۰۲۴ - لینک‌ساز هوشمند بلاگیکس
-            </p>
+            <p>🔗 این ابزار به صورت خودکار پست‌های مرتبط وبلاگ <a href="https://izhaagahi.blogix.ir" style="color:#ffd700;">ایذه آگهی</a> را پیدا می‌کند</p>
+            <p style="margin-top:15px; opacity:0.8; font-size:14px;">© ۲۰۲۴ - لینک‌ساز هوشمند بلاگیکس</p>
         </footer>
     </div>
-
-    <script src="script.js"></script>
+    
+    <script>
+        const posts = [
+            {id: '20', title: 'بهترین آرایشگاه‌های مردانه ایذه', desc: 'رتبه‌بندی واقعی آرایشگاه‌های ایذه', keywords: ['آرایشگاه', 'ایذه']},
+            {id: '17', title: '۱۰ آموزشگاه زبان برتر ایذه', desc: 'بررسی آموزشگاه‌های زبان ایذه', keywords: ['آموزشگاه', 'زبان', 'آموزش']},
+            {id: '16', title: 'تعمیرکارهای ایذه', desc: 'راهنمای جامع تعمیرگاه‌های خودرو', keywords: ['تعمیرکار', 'خودرو', 'تعمیرگاه']},
+            {id: '15', title: 'خرید خودرو کارکرده در ایذه', desc: 'راهنمای خرید خودرو کارکرده', keywords: ['خودرو', 'خرید خودرو', 'ماشین']},
+            {id: '14', title: 'متخصص زنان و مامایی در ایذه', desc: 'خدمات تخصصی زنان و مامایی', keywords: ['پزشک', 'مامایی', 'سلامت']},
+            {id: '13', title: 'فروشگاه موبایل در ایذه', desc: 'فروش گوشی و تعمیرات موبایل', keywords: ['موبایل', 'فروشگاه', 'گوشی']},
+            {id: '12', title: 'رستوران و فست فودهای ایذه', desc: 'غذای باکیفیت در رستوران ماکان', keywords: ['رستوران', 'فست فود', 'غذا']},
+            {id: '18', title: 'محاسبه‌گر ریسک دیابت', desc: 'بررسی خطر ابتلا به دیابت', keywords: ['دیابت', 'سلامت', 'بیماری']},
+            {id: '10', title: 'راهنمای جامع خدمات ایذه', desc: 'مرجع کامل خدمات شهر ایذه', keywords: ['ایذه', 'خدمات', 'راهنما']}
+        ];
+        
+        function getCurrentPostId() {
+            const ref = document.referrer;
+            if (!ref.includes('izhaagahi.blogix.ir/post/')) return null;
+            const match = ref.match(/\/post\/(\d+)/);
+            return match ? match[1] : null;
+        }
+        
+        function findRelatedPosts() {
+            const currentId = getCurrentPostId();
+            if (!currentId) return posts.slice(0, 4);
+            
+            const currentPost = posts.find(p => p.id === currentId);
+            if (!currentPost) return posts.slice(0, 4);
+            
+            const related = posts
+                .filter(p => p.id !== currentId)
+                .map(p => {
+                    let score = 0;
+                    p.keywords.forEach(k => {
+                        if (currentPost.keywords.includes(k)) score++;
+                    });
+                    return {...p, score};
+                })
+                .filter(p => p.score > 0)
+                .sort((a,b) => b.score - a.score)
+                .slice(0, 4);
+            
+            return related.length > 0 ? related : posts.slice(0, 4);
+        }
+        
+        function displayPosts() {
+            const container = document.getElementById('postsGrid');
+            const currentContainer = document.getElementById('currentPost');
+            const currentId = getCurrentPostId();
+            
+            if (currentId) {
+                const currentPost = posts.find(p => p.id === currentId);
+                if (currentPost) {
+                    currentContainer.innerHTML = `
+                        <h3>شما در حال مشاهده:</h3>
+                        <h4>${currentPost.title}</h4>
+                        <p>${currentPost.desc}</p>
+                        <div>${currentPost.keywords.map(k => `<span class="keyword">${k}</span>`).join('')}</div>
+                    `;
+                }
+            } else {
+                currentContainer.innerHTML = '<h3>به لینک‌ساز هوشمند ایذه خوش آمدید!</h3>';
+            }
+            
+            const relatedPosts = findRelatedPosts();
+            container.innerHTML = relatedPosts.map(post => `
+                <a href="https://izhaagahi.blogix.ir/post/${post.id}" class="post-card" target="_blank">
+                    <h3>${post.title}</h3>
+                    <p>${post.desc}</p>
+                    <div>${post.keywords.map(k => `<span class="keyword">${k}</span>`).join('')}</div>
+                </a>
+            `).join('');
+            
+            setTimeout(() => {
+                try {
+                    const height = document.documentElement.scrollHeight;
+                    window.parent.postMessage({type: 'SET_HEIGHT', height: height}, '*');
+                } catch(e) {}
+            }, 500);
+        }
+        
+        document.addEventListener('DOMContentLoaded', displayPosts);
+    </script>
 </body>
-                  </html>
+</html>
